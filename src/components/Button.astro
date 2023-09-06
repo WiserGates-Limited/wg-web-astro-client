@@ -1,0 +1,43 @@
+---
+const { text, className } = Astro.props;
+---
+
+<button class={className} data-message={text}>
+  {text}
+  <!-- <slot /> -->
+</button>
+
+<style lang="scss">
+  button {
+    width: fit-content;
+    font-family: "Futura medium";
+    font-size: 15px;
+    font-weight: normal;
+    background-color: var(--accent);
+    color: black;
+    border: none;
+    border-radius: 5px;
+    padding: 18px 26px;
+    transition: all 0.2s ease-in-out;
+  }
+
+  button:hover {
+    background-color: black;
+    /* font-size: 30px; */
+    color: var(--accent);
+    /* padding      : 19px 27px; */
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+</style>
+
+<script>
+  const closeButton = document.querySelector(".close");
+  console.log(closeButton);
+  // closeButton.style.backgroundColor = "white";
+  closeButton.style.position = "absolute";
+  closeButton.style.right = "28px";
+  closeButton.style.top = "28px";
+  closeButton.style.padding = "10px";
+  closeButton.style.borderRadius = "2px";
+</script>

@@ -1,0 +1,95 @@
+---
+import type { Code } from "astro:components";
+import Button from "../../components/Button.astro"
+import Modal from "../../components/Modal.astro"
+import Input from "../../components/Input.astro"
+---
+
+<section class="landing-section">
+  <div class="flex-container">
+    <div class="item-1">
+      <h1>Know your net worth today.</h1>
+      <p>
+        Grow your net worth by knowing what you are worth today. Download the
+        free <strong>personal balance sheet template below</strong>
+         and use this to calculate your net worth today. Measure what you want
+        to manage - your wealth.
+      </p>
+      <Modal id="dialog" open="> Download Free">
+        <Button className="close" text="Close" slot="close" />
+        <div class="modal-content" slot="main" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; height: 100%">
+          <p>Please enter your email and you're good to go!</p>
+          <Input width="250px" type="email" />
+          <Button text="Send me the file" className="download-btn"/>
+        </div>
+        
+      </Modal>
+
+    </div>
+    <div class="item 2">
+      <img src="/landing.jpg" class="landing-picture" alt="landing" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .flex-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  p {
+    font-family: "Futura light";
+    /* font-size: 25px; */
+    font-weight: light;
+    /* line-height: 45px; */
+  }
+
+  .item-1 {
+    flex: 2;
+    margin-bottom: 10px;
+  }
+
+  .item-2 {
+    flex: 1;
+  }
+
+  img {
+    /* max-width: 400px; */
+    max-height: 600px;
+  }
+
+  @media (min-width: 500px) {
+    /* .landing-section {
+      padding: 25px 16px 50px 16px;
+    } */
+    .flex-container {
+      flex-direction: row;
+    }
+    .landing-section img {
+      width: 300px;
+    }
+    .item-1 {
+      margin-right: 50px;
+    }
+
+    /* .landing-section h1 {
+      font-size: 40px;
+      margin-top: 35px;
+    } */
+
+    .landing-section .btn {
+      display: flex;
+      margin: auto;
+    }
+
+    /* button {
+      font-size: 25px;
+    } */
+
+    .landing-section .item-1 {
+      width: 100%;
+    }
+  }
+</style>
