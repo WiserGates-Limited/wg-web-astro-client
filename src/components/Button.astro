@@ -2,9 +2,8 @@
 const { text, className } = Astro.props;
 ---
 
-<button class={className} data-message={text}>
+<button class={className}>
   {text}
-  <!-- <slot /> -->
 </button>
 
 <style lang="scss">
@@ -31,13 +30,13 @@ const { text, className } = Astro.props;
   }
 </style>
 
-<script>
-  const closeButton = document.querySelector(".close");
-  console.log(closeButton);
-  // closeButton.style.backgroundColor = "white";
-  closeButton.style.position = "absolute";
-  closeButton.style.right = "28px";
-  closeButton.style.top = "28px";
-  closeButton.style.padding = "10px";
-  closeButton.style.borderRadius = "2px";
+<script is:inline>
+const closeButton = document.querySelector("#close-button");
+console.log(closeButton);
+// closeButton.style.backgroundColor = "white";
+closeButton.style.position = "absolute";
+closeButton.style.right = "28px";
+closeButton.style.top = "28px";
+closeButton.style.padding = "10px";
+closeButton.style.borderRadius = "2px";
 </script>

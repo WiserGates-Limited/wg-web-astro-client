@@ -1,0 +1,27 @@
+I want to create a Dialog component that is 
+reactive and an island in my island architecture
+based website. This Dialog component serves 
+the purpose of prompting the user for 
+information and in return there's a reward 
+in the form of a callback. My users will be 
+excited to click a button. It will open this 
+Dialog component and give them an immersive 
+experience.
+
+--define immersive experience
+provide information that we need and in return,
+return a piece of information.
+
+--current examples
+1. download file
+2. request group session
+3. set-up online meeting 
+
+?a dialog acts as a platform for any user's action 
+on the site. The dialog experience needs to ensure
+a optimally happy UX journey leading up to get 
+their desired result
+
+open dialog
+look at dialog intents (--intent - )
+render dialog content

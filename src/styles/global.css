@@ -169,3 +169,10 @@ hr {
 	/* added line to stop words getting smushed together (as they go onto seperate lines and some screen readers do not understand line feeds as a space */
 	white-space: nowrap;
 }
+
+.close-button {
+  position: fixed;
+  left: 28px;
+  top: 28px;
+  padding: 10px !important;
+}
