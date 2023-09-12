@@ -25,3 +25,5 @@ their desired result
 open dialog
 look at dialog intents (--intent - )
 render dialog content
+
+$dialogs done designing, first dialog is functional

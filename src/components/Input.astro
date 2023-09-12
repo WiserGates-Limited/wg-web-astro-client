@@ -1,8 +1,8 @@
 ---
-const { width, type, placeholder } = Astro.props;
+const { id, width, type, placeholder } = Astro.props;
 ---
 
-<input type={type} placeholder={placeholder} />
+<input id={id} type={type} placeholder={placeholder} />
 <style lang="scss" define:vars={{ width }}>
   input {
     font-family: "Futura light";
@@ -25,6 +25,4 @@ const { width, type, placeholder } = Astro.props;
     }
   }
 </style>
-<script>
-  console.log("I'm Input");
-</script>
+<script></script>

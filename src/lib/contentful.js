@@ -13,9 +13,9 @@ class Contentful {
     console.log("here in Contentful class constructor");
   }
 
-  async downloadFile(fileURL) {
+  async downloadFile(email, fileURL) {
     // call API
-    client
+    this._contentfulClient
       .getSpace("noepe1fl3llv")
       .then((space) => space.getEnvironment("master"))
       .then((environment) =>
@@ -25,19 +25,17 @@ class Contentful {
               "en-US": email,
             },
             fileUrl: {
-              "en-US": url,
+              "en-US": fileURL,
             },
           },
         })
       )
       .then((entry) => {
-        console.log(entry);
         const link = document.createElement("a");
-        link.href = url;
+        link.href = fileURL;
         link.download = "WiserGates - Personal Balance Sheet Template";
         document.body.appendChild(link);
         link.click();
-        setIsDownloaded(true);
       })
       .catch(console.error);
   }

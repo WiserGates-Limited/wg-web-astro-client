@@ -1,6 +1,7 @@
 ---
 import Button from "../../components/Button.astro";
-import Dialog from "../../components/react/Dialog.jsx";
+import Dialog from "../../components/Dialog.astro";
+import { dialogIntents } from "../../states";
 import Input from "../../components/Input.astro";
 import { fade } from "astro:transitions";
 import { ViewTransitions } from "astro:transitions";
@@ -16,16 +17,12 @@ import { ViewTransitions } from "astro:transitions";
          and use this to calculate your net worth today. Measure what you want
         to manage - your wealth.
       </p>
-      <Dialog
-        transition:animate={fade({ duration: "0.4s" })}
-        client:visible
-        id="dialog"
-        open="> Download Free"
-      >
+      <Dialog transition:animate={fade({ duration: "0.4s" })} id="first-dialog">
         <Button
           className="dialog-button"
-          text="> Download Free"
+          text={dialogIntents[0]}
           slot="open-dialog"
+          id="dialog-1"
         />
         <Button
           className="close-button"
@@ -33,14 +30,26 @@ import { ViewTransitions } from "astro:transitions";
           text="Close"
           slot="close-dialog"
         />
-        <div
+        <form
+          id="first-dialog-form"
           class="dialog-content"
           style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; height: 100%"
         >
-          <p>Please enter your email and you're good to go!</p>
-          <Input width="250px" type="email" />
-          <Button text="Send me the file" className="download-btn" />
-        </div>
+          <h5 id="dialog-title">
+            Please enter your email and you're good to go!
+          </h5>
+          <Input
+            id="email"
+            width="250px"
+            type="email"
+            placeholder="Your email"
+          />
+          <Button
+            type="submit"
+            text="Send me the file"
+            className="download-btn"
+          />
+        </form>
       </Dialog>
     </div>
     <div class="item 2">
@@ -51,6 +60,9 @@ import { ViewTransitions } from "astro:transitions";
 <ViewTransitions />
 
 <style>
+  .landing-section {
+    padding: 10px 1em 0 1em;
+  }
   .flex-container {
     display: flex;
     flex-direction: column;
@@ -76,12 +88,24 @@ import { ViewTransitions } from "astro:transitions";
     max-height: 600px;
   }
 
-  @media (min-width: 500px) {
-    /* .landing-section {
-      padding: 25px 16px 50px 16px;
-    } */
+  .landing-section #dialog-title {
+    color: black;
+    font-family: "Futura light";
+    margin-bottom: 50px;
+    width: 300px;
+  }
+
+  @media (min-width: 800px) {
+    .landing-section {
+      padding: 50px 80px 30px 80px;
+      margin: 0;
+      /* width: 800px; */
+      /* /* max-width: calc(100% - 2em); */
+      max-width: 1000px;
+    }
     .flex-container {
       flex-direction: row;
+      justify-content: space-between;
     }
     .landing-section img {
       width: 300px;
@@ -98,20 +122,45 @@ import { ViewTransitions } from "astro:transitions";
     .landing-section .item-1 {
       width: 100%;
     }
+    .landing-section #dialog-title {
+      width: 800px;
+    }
   }
 </style>
 <script>
-  import { isDialogOpen } from "../../states";
+  import { formatList } from "astro/runtime/server/render/util.js";
+  import contentful from "../../lib/contentful";
+
+  const cmsClient = new contentful(
+    "CFPAT-Fv8bCvvESWMdNndVTO3yP-73aO_RfUfHEl5GoDxrKj8",
+    "noepe1fl3llv"
+  );
+  const fileURL =
+    "https://assets.ctfassets.net/noepe1fl3llv/679VJyNJsKfZPLr991hBKz/cb20d72f6bae21b265bc87dda19e7548/Personal_Balance_Sheet.xlsx";
   function openDialog() {
-    isDialogOpen.set(true);
+    document.querySelector("#first-dialog")?.showModal();
   }
   function closeDialog() {
-    isDialogOpen.set(false);
+    document.querySelector("#first-dialog")?.close();
   }
-  document
-    .querySelector(".dialog-button")
-    ?.addEventListener("click", openDialog);
-  document
-    .querySelector(".close-button")
-    ?.addEventListener("click", closeDialog);
+  let elements = document.querySelectorAll(".dialog-button");
+  elements.forEach((element) => {
+    if (element.textContent == "> Download Free") {
+      element.addEventListener("click", openDialog);
+    }
+  });
+
+  let closeButtons = document.querySelectorAll(".close-button");
+  closeButtons[0].addEventListener("click", closeDialog);
+
+  const form = document.getElementById("first-dialog-form");
+  form?.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const userInput = document.getElementById("email")?.value;
+    console.log(userInput);
+    await cmsClient.downloadFile(userInput, fileURL);
+    const newHTMLContent =
+      "<h4>Congratulations on your first step towards financial freedom! 🎉</h4>";
+    form.innerHTML = newHTMLContent;
+  });
 </script>

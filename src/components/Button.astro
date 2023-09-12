@@ -1,8 +1,8 @@
 ---
-const { text, className } = Astro.props;
+const { type, text, className, reverse } = Astro.props;
 ---
 
-<button class={className}>
+<button type={type} class:list={[className, reverse]}>
   {text}
 </button>
 
@@ -20,6 +20,16 @@ const { text, className } = Astro.props;
     transition: all 0.2s ease-in-out;
   }
 
+  .reverse {
+    color: var(--accent);
+    background: black;
+  }
+
+  .reverse:hover {
+    color: black;
+    background: #ffaf11;
+  }
+
   button:hover {
     background-color: black;
     /* font-size: 30px; */
@@ -32,7 +42,7 @@ const { text, className } = Astro.props;
 
 <script is:inline>
 const closeButton = document.querySelector("#close-button");
-console.log(closeButton);
+
 // closeButton.style.backgroundColor = "white";
 closeButton.style.position = "absolute";
 closeButton.style.right = "28px";

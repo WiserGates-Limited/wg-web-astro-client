@@ -1,0 +1,205 @@
+---
+import Dialog from "../../components/Dialog.astro";
+import Button from "../../components/Button.astro";
+import { dialogIntents } from "../../states";
+---
+
+<section class="second-section">
+  <div class="flex-container">
+    <div class="item-1">
+      <h3 class="title">Redefine your relationship with money.</h3>
+      <p class="description">
+        Personal finance is the art of managing your money. How much to save,
+        where to invest and how to budget - none of us are born knowing how to
+        put together a smart, simple financial plan. That’s why we’re here. At
+        WiserGates, we want to help everyone get better at money.
+      </p>
+      <break></break>
+      <h5>Corporates we worked with:</h5>
+      <div class="logo">
+        <img src="/client_one_logo.png" class="landing-picture" alt="landing" />
+      </div>
+    </div>
+    <div class="box">
+      <h4>Are you a corporate?</h4>
+      <img src="/arrow.png" class="arrow" alt="down-arrow" />
+      <p class="desc">
+        We offer free group masterclasses to corporates. We found out that the
+        will to change and improve happens much stronger in a group. <strong
+          >Sign up for a free group masterclass below.</strong
+        >
+      </p>
+      <Dialog id="second-dialog">
+        <Button
+          className="dialog-button"
+          reverse="reverse"
+          text={dialogIntents[1]}
+          slot="open-dialog"
+          id="dialog-2"
+        />
+        <Button
+          className="close-button"
+          id="close-button"
+          text="Close"
+          slot="close-dialog"
+        />
+        <form
+          id="second-dialog-form"
+          class="dialog-content"
+          style="display: flex; flex-direction: column; justify-content: center;
+        align-items: center; text-align: center; height: 100%"
+        >
+          <h5 id="dialog-title">
+            Please enter these details below and one of our team members will
+            reach out to find a slot with you.
+          </h5>
+        </form>
+      </Dialog>
+    </div>
+  </div>
+</section>
+
+<style>
+  .second-section {
+    /* padding: 30px 90px; */
+    background-color: #58585a;
+    /* width: 100vw; */
+    /* margin: 0 auto; */
+    width: 100vw;
+    position: relative;
+    left: calc(-50vw + 50%);
+    /* padding: 50px 1.1em 0 1.1em; */
+  }
+
+  .second-section h3 {
+    color: #fec240;
+    /* font-size: 50px; */
+    font-family: "Futura medium";
+    font-weight: normal;
+    /* margin-bottom: -5px; */
+    /* margin-top: 20px; */
+  }
+
+  .second-section h5 {
+    color: #fec240;
+    /* font-size: 35px; */
+    font-family: "Futura medium";
+    font-weight: normal;
+    /* margin-bottom: -5px; */
+    /* margin-top: 20px; */
+  }
+
+  .second-section p {
+    color: white;
+    font-family: "Futura light";
+    /* font-size: 25px; */
+    font-weight: light;
+    /* line-height: 45px; */
+  }
+
+  .second-section button {
+    font-family: "Futura medium";
+    /* font-size: 30px; */
+    font-weight: normal;
+    background-color: black;
+    color: #fec240;
+    border: none;
+    border-radius: 10px;
+    padding: 18px 26px;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .second-section button:hover {
+    background-color: white;
+
+    color: black;
+
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .flex-container {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-between;
+    padding: 1em;
+  }
+
+  .item-1 {
+    flex: 2;
+    margin-right: 35px;
+    max-width: 350px;
+  }
+
+  .box {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    padding: 40px 0;
+
+    background-color: #fec240;
+    max-width: 350px;
+    margin-bottom: 50px;
+    left: 50%;
+    transform: translate(-50%);
+  }
+
+  .box h4 {
+    color: black;
+  }
+
+  .box .arrow {
+    width: 15px;
+  }
+
+  .box p {
+    color: black;
+    width: 80%;
+  }
+
+  .second-section #dialog-title {
+    color: black;
+    font-family: "Futura light";
+    margin-bottom: 50px;
+    width: 300px;
+  }
+
+  @media (min-width: 800px) {
+    .second-section {
+      margin: auto;
+    }
+    .flex-container {
+      flex-direction: row;
+      padding: 50px 80px;
+      padding-bottom: 0;
+    }
+    .box {
+      left: auto;
+      transform: none;
+    }
+    .landing-section #dialog-title {
+      width: 800px;
+    }
+  }
+</style>
+<script>
+  function openDialog() {
+    document.querySelector("#second-dialog")?.showModal();
+  }
+  function closeDialog() {
+    document.querySelector("#second-dialog")?.close();
+  }
+
+  let elements = document.querySelectorAll(".dialog-button");
+  elements.forEach((element) => {
+    if (element.textContent == "Sign Up") {
+      element.addEventListener("click", openDialog);
+    }
+  });
+
+  let closeButtons = document.querySelectorAll(".close-button");
+  closeButtons[1].addEventListener("click", closeDialog);
+</script>
