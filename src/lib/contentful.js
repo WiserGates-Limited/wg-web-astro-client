@@ -10,7 +10,7 @@ class Contentful {
       accessToken: accessToken,
     });
     this._spaceID = spaceID;
-    console.log("here in Contentful class constructor");
+    // console.log("here in Contentful class constructor");
   }
 
   async downloadFile(email, fileURL) {
@@ -65,11 +65,11 @@ class Contentful {
         })
       )
       .then((entry) => {
-        console.log(entry);
+        // console.log(entry);
         return entry;
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         throw error;
       });
   }
@@ -96,11 +96,11 @@ class Contentful {
         })
       )
       .then((entry) => {
-        console.log(entry);
+        // console.log(entry);
         return entry;
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         throw error;
       });
   }
