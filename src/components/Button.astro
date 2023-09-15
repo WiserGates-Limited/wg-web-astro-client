@@ -1,8 +1,8 @@
 ---
-const { type, text, className, reverse } = Astro.props;
+const { type, text, className, id, reverse } = Astro.props;
 ---
 
-<button type={type} class:list={[className, reverse]}>
+<button id={id} type={type} class:list={[className, reverse]}>
   {text}
 </button>
 

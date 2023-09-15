@@ -2,6 +2,7 @@
 import Dialog from "../../components/Dialog.astro";
 import Button from "../../components/Button.astro";
 import { dialogIntents } from "../../states";
+import Input from "../../components/Input.astro";
 ---
 
 <section class="second-section">
@@ -50,9 +51,35 @@ import { dialogIntents } from "../../states";
         align-items: center; text-align: center; height: 100%"
         >
           <h5 id="dialog-title">
-            Please enter these details below and one of our team members will
-            reach out to find a slot with you.
+            Please fill in below and one of our team members will reach out to
+            find a slot with you.
           </h5>
+          <Input id="name" type="text" width="280px" placeholder="Your name" />
+          <Input
+            id="email"
+            type="text"
+            width="280px"
+            placeholder="Your email"
+          />
+          <Input
+            id="phone"
+            type="number"
+            width="280px"
+            placeholder="Your phone"
+          />
+          <Input
+            id="company"
+            type="text"
+            width="280px"
+            placeholder="Your company"
+          />
+          <Input
+            id="reason"
+            type="text"
+            width="280px"
+            placeholder="Why do you want a group masterclass at your company?"
+          />
+          <Button type="submit" text="Contact me" className="contact-me-btn" />
         </form>
       </Dialog>
     </div>
@@ -61,45 +88,33 @@ import { dialogIntents } from "../../states";
 
 <style>
   .second-section {
-    /* padding: 30px 90px; */
     background-color: #58585a;
-    /* width: 100vw; */
-    /* margin: 0 auto; */
+
     width: 100vw;
     position: relative;
     left: calc(-50vw + 50%);
-    /* padding: 50px 1.1em 0 1.1em; */
   }
 
   .second-section h3 {
     color: #fec240;
-    /* font-size: 50px; */
     font-family: "Futura medium";
     font-weight: normal;
-    /* margin-bottom: -5px; */
-    /* margin-top: 20px; */
   }
 
   .second-section h5 {
     color: #fec240;
-    /* font-size: 35px; */
     font-family: "Futura medium";
     font-weight: normal;
-    /* margin-bottom: -5px; */
-    /* margin-top: 20px; */
   }
 
   .second-section p {
     color: white;
     font-family: "Futura light";
-    /* font-size: 25px; */
     font-weight: light;
-    /* line-height: 45px; */
   }
 
   .second-section button {
     font-family: "Futura medium";
-    /* font-size: 30px; */
     font-weight: normal;
     background-color: black;
     color: #fec240;
@@ -142,6 +157,7 @@ import { dialogIntents } from "../../states";
 
     background-color: #fec240;
     max-width: 350px;
+    margin-top: 50px;
     margin-bottom: 50px;
     left: 50%;
     transform: translate(-50%);
@@ -164,7 +180,7 @@ import { dialogIntents } from "../../states";
     color: black;
     font-family: "Futura light";
     margin-bottom: 50px;
-    width: 300px;
+    width: 250px;
   }
 
   @media (min-width: 800px) {
@@ -175,17 +191,33 @@ import { dialogIntents } from "../../states";
       flex-direction: row;
       padding: 50px 80px;
       padding-bottom: 0;
+      max-width: 1000px;
+      position: relative;
+      left: 50%;
+      transform: translate(-50%);
     }
     .box {
       left: auto;
       transform: none;
+      margin-top: 0;
     }
     .landing-section #dialog-title {
       width: 800px;
     }
+    .second-section #dialog-title {
+      font-family: "Futura light";
+      margin-bottom: 30px;
+      width: 500px;
+    }
   }
 </style>
 <script>
+  import contentful from "../../lib/contentful";
+
+  const cmsClient = new contentful(
+    "CFPAT-Fv8bCvvESWMdNndVTO3yP-73aO_RfUfHEl5GoDxrKj8",
+    "noepe1fl3llv"
+  );
   function openDialog() {
     document.querySelector("#second-dialog")?.showModal();
   }
@@ -202,4 +234,28 @@ import { dialogIntents } from "../../states";
 
   let closeButtons = document.querySelectorAll(".close-button");
   closeButtons[1].addEventListener("click", closeDialog);
+  const form = document.getElementById("second-dialog-form");
+  form?.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    let name = document.getElementById("name")?.value;
+    let email = document.getElementById("email")?.value;
+    let phone = document.getElementById("phone")?.value;
+    let company = document.getElementById("company")?.value;
+    let reason = document.getElementById("reason")?.value;
+    // name = "tan";
+    // email = "tan@gmail.com";
+    // phone = "0143242";
+    // company = "wisergates";
+    // reason = "fsdfs";
+
+    console.log(name, email, phone, company, reason);
+    cmsClient
+      .contactRequest(name, email, phone, company, reason)
+      .then((res) => {
+        console.log(res);
+        const newHTMLContent =
+          "<p>We're contacting you in the next 24 hours! 😊</p>";
+        form.innerHTML = newHTMLContent;
+      });
+  });
 </script>

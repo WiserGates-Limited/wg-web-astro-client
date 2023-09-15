@@ -13,7 +13,9 @@ import { ViewTransitions } from "astro:transitions";
       <h1>Know your net worth today.</h1>
       <p>
         Grow your net worth by knowing what you are worth today. Download the
-        free <strong>personal balance sheet template below</strong>
+        free <strong style={{ fontFamily: "Futura bold" }}
+          >personal balance sheet template below</strong
+        >
          and use this to calculate your net worth today. Measure what you want
         to manage - your wealth.
       </p>
@@ -61,7 +63,7 @@ import { ViewTransitions } from "astro:transitions";
 
 <style>
   .landing-section {
-    padding: 10px 1em 0 1em;
+    padding: 10px 1em 50px 1em;
   }
   .flex-container {
     display: flex;
@@ -84,7 +86,6 @@ import { ViewTransitions } from "astro:transitions";
   }
 
   img {
-    /* max-width: 400px; */
     max-height: 600px;
   }
 
@@ -92,16 +93,17 @@ import { ViewTransitions } from "astro:transitions";
     color: black;
     font-family: "Futura light";
     margin-bottom: 50px;
-    width: 300px;
+    width: 250px;
   }
 
   @media (min-width: 800px) {
     .landing-section {
       padding: 50px 80px 30px 80px;
       margin: 0;
-      /* width: 800px; */
-      /* /* max-width: calc(100% - 2em); */
       max-width: 1000px;
+      position: relative;
+      left: 50%;
+      transform: translate(-50%);
     }
     .flex-container {
       flex-direction: row;
@@ -128,7 +130,6 @@ import { ViewTransitions } from "astro:transitions";
   }
 </style>
 <script>
-  import { formatList } from "astro/runtime/server/render/util.js";
   import contentful from "../../lib/contentful";
 
   const cmsClient = new contentful(
@@ -160,7 +161,7 @@ import { ViewTransitions } from "astro:transitions";
     console.log(userInput);
     await cmsClient.downloadFile(userInput, fileURL);
     const newHTMLContent =
-      "<h4>Congratulations on your first step towards financial freedom! 🎉</h4>";
+      "<p>Congratulations on your first step towards financial freedom! 🎉</p>";
     form.innerHTML = newHTMLContent;
   });
 </script>
