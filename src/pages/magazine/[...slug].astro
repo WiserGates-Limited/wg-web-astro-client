@@ -2,21 +2,16 @@
 import { type CollectionEntry, getCollection } from "astro:content";
 import MagazinePost from "../../layouts/MagazinePost.astro";
 
-export async function getStaticPaths() {
-  const posts = await getCollection("magazine");
-  return posts.map((post) => ({
-    params: { slug: post.slug },
-    props: post,
-  }));
-}
+const posts = await getCollection("magazine");
 type Props = CollectionEntry<"magazine">;
 
-const post = Astro.props;
+const { slug } = Astro.params;
+const post = posts.find((page) => page.slug === slug);
+if (!post) return Astro.redirect("/404");
 const { Content } = await post.render();
 ---
 
 <MagazinePost {...post.data}>
+  <h1>{post.data.title}</h1>
   <Content />
 </MagazinePost>
-
- export const prerender = true

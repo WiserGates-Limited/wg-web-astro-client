@@ -250,11 +250,11 @@ import Input from "../../components/Input.astro";
     // company = "wisergates";
     // reason = "fsdfs";
 
-    console.log(name, email, phone, company, reason);
+    // console.log(name, email, phone, company, reason);
     cmsClient
       .contactRequest(name, email, phone, company, reason)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         const newHTMLContent =
           "<p>We're contacting you in the next 24 hours! 😊</p>";
         form.innerHTML = newHTMLContent;
