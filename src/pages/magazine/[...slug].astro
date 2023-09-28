@@ -1,17 +1,39 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
 import MagazinePost from "../../layouts/MagazinePost.astro";
+import  {useSanityClient } from "astro-sanity";
+import PortableText from '../../components/PortableText.astro';
 
-const posts = await getCollection("magazine");
-type Props = CollectionEntry<"magazine">;
+// const posts = await getCollection("magazine");
+// type Props = CollectionEntry<"magazine">;
+
+// const { slug } = Astro.params;
+// const post = posts.find((page) => page.slug === slug);
+// if (!post) return Astro.redirect("/404");
+// const { Content } = await post.render();
+export async function getStaticPaths() {
+  const posts = await useSanityClient().fetch(`*[_type == "post"]`);
+
+  return posts.map((post) => {
+    return {
+      params: {
+        slug: post.slug?.current || '',
+      },
+      props: { ...post },
+    };
+  });
+}
 
 const { slug } = Astro.params;
-const post = posts.find((page) => page.slug === slug);
-if (!post) return Astro.redirect("/404");
-const { Content } = await post.render();
+const { title, body } = Astro.props;
+console.log(title, body)
 ---
 
-<MagazinePost {...post.data}>
+<!-- <MagazinePost {...post.data}>
   <h1>{post.data.title}</h1>
   <Content />
-</MagazinePost>
+</MagazinePost> -->
+
+<h1>{title}</h1>
+
+<PortableText portableText={body} />
