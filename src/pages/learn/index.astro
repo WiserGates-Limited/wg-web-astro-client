@@ -1,0 +1,224 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
+
+import { getCollection } from 'astro:content';
+
+const allTopics = await getCollection('learn');
+console.log('allTopics ', allTopics);
+---
+
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<BaseHead
+			title={SITE_TITLE}
+			description={SITE_DESCRIPTION}
+		/>
+		<style lang='scss'>
+			.top {
+				padding: 100px 0 100px 0;
+				background: var(--accent);
+				text-align: center;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+			}
+			.top p {
+				width: 450px;
+			}
+			.content {
+				display: flex;
+				flex-direction: column;
+				justify-content: left;
+				gap: 100px;
+				padding: 100px 0 100px 150px;
+				.category-bar {
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					flex-wrap: no-wrap;
+					gap: 50px;
+					.post {
+						min-width: 350px;
+						height: 200px;
+						border: 1px solid grey;
+						line-height: 1px;
+						padding: 20px;
+						.author {
+							font-size: 20px;
+						}
+						box-shadow: 10px 10px gray;
+						&:hover {
+							cursor: pointer;
+						}
+					}
+					.first {
+						position: relative;
+						max-width: 350px;
+						height: 300px;
+						padding: 0;
+						line-height: 1px;
+						border-radius: 10px;
+						border: 1px solid black;
+						box-shadow: none;
+						overflow: hidden;
+						color: white;
+						transition: all 0.1s ease;
+						&:hover {
+							transform: translate(0, -5px);
+						}
+						.description {
+							position: absolute;
+							bottom: 0;
+							margin: 0 10px 10px 10px;
+							z-index: 3;
+						}
+						img {
+							z-index: 2;
+						}
+						.thumbnail {
+							position: absolute;
+							width: 100%;
+							height: 100%;
+							object-fit: cover;
+							z-index: 1;
+						}
+						.mute-button {
+							position: absolute;
+							width: 20px;
+							height: auto;
+							top: 10px;
+							right: 10px;
+							z-index: 0;
+						}
+					}
+					video {
+						position: absolute;
+						width: 100%;
+						height: 100%;
+						object-fit: cover;
+					}
+				}
+			}
+
+			@media (max-width: 720px) {
+				.top {
+					padding: 50px 1.5em 50px 1.5em;
+				}
+				.top p {
+					width: 300px;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section class='top'>
+				<h1>Personal Finance 101</h1>
+				<p>
+					Personal finance is the art of managing your money. How much to save,
+					where to invest and how to budget. None of us are born knowing how to
+					put together a smart, simple financial plan. That’s why we’re here.
+				</p>
+			</section>
+			<section class='content'>
+				{
+					allTopics.map((topic) => (
+            <a href={`/learn/topic/${topic.slug}/`}>
+              <div class='category-bar'>
+                <div class='post first'>
+                  <div class='description'>
+                    <h4 style={`background: ${topic.data.color}; color: white;`}>
+                      {topic.data.title}
+                    </h4>
+                    <p style='text-decoration: underline;'>Explore category</p>
+                  </div>
+                  <img
+                    class='thumbnail'
+                    src={topic.data.thumbnail}
+                    alt='Video Thumbnail'
+                  />
+                  <video
+                    muted
+                    loop
+                    preload='none'
+                    class='video'
+                  >
+                    <source
+                      src={topic.data.trailerVideo}
+                      type='video/mp4'
+                    />
+                  </video>
+                  <img
+                    src='/volume.png'
+                    class='mute-button'
+                  />
+                </div>
+              </div>
+            </a>
+            ))
+				}
+			</section>
+		</main>
+		<Footer />
+	</body>
+  <script>
+		let trailers = document.getElementsByClassName('first');
+		// console.log('trailers ', trailers)
+		for (let trailer of trailers) {
+			const videos = trailer.getElementsByClassName('video');
+			// console.log('videos', videos);
+			const thumbnails = trailer.getElementsByClassName('thumbnail');
+
+			trailer.addEventListener('mouseover', function () {
+				// console.log('mouse detected ')
+				for (let video of videos) {
+					video.style.display = 'block'; // Show the video
+					video.play();
+					video.muted = false;
+					for (let thumbnail of thumbnails) {
+						thumbnail.style.display = 'none'; // Hide the thumbnail
+					}
+					const muteButtons = trailer.getElementsByClassName('mute-button');
+					// console.log('muteButtons ', muteButtons)
+					let isMuted = false;
+					for (let muteButton of muteButtons) {
+						muteButton.addEventListener('click', function () {
+							console.log('volume button clicked');
+							isMuted = !video.muted;
+							muteButton.src = isMuted ? 'volume.png' : 'mute.png';
+							video.muted = isMuted ? false : true;
+						});
+					}
+				}
+			});
+
+			// When the mouse leaves the video card
+			trailer.addEventListener('mouseleave', function () {
+				// console.log('mouse removed')
+				for (let video of videos) {
+					video.style.display = 'none'; // Hide the video
+					video.pause();
+					for (let thumbnail of thumbnails) {
+						thumbnail.style.display = 'block'; // Show the thumbnail
+					}
+					const muteButtons = trailer.getElementsByClassName('mute-button');
+					// console.log('muteButtons ', muteButtons)
+					let isMuted = false;
+					for (let muteButton of muteButtons) {
+						muteButton.addEventListener('click', function () {
+							console.log('volume button clicked');
+							isMuted = !video.muted;
+							muteButton.src = isMuted ? 'volume.png' : 'mute.png';
+							video.muted = isMuted ? true : false;
+						});
+					}
+				}
+			});
+		}
+	</script>
+</html>

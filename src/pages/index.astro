@@ -14,12 +14,18 @@ import Section3 from "../layouts/home_page/Section3.astro";
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
   </head>
   <body>
-    <Header title={SITE_TITLE} />
+    <Header />
     <main>
-      <Section1 />
+      <Section1 is:inline/>
       <Section2 />
       <Section3 />
     </main>
     <Footer />
   </body>
 </html>
+<style>
+  main {
+    position: relative;
+    /* z-index: -1; */
+  }
+</style>

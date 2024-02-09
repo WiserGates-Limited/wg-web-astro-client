@@ -1,0 +1,132 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+
+type Props = CollectionEntry<'learn'>['data']
+
+const { title, trailerVideo, color, thumbnail, description } = Astro.props
+console.log(title, trailerVideo, color, thumbnail, description );
+---
+
+<html lang='en'>
+	<head>
+		<BaseHead
+			title={SITE_TITLE}
+			description={SITE_DESCRIPTION}
+		/>
+		<style lang='scss'>
+			.top {
+				padding: 100px 0 100px 0;
+				background: var(--accent);
+				text-align: center;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+			}
+			.top p {
+				width: 450px;
+			}
+			.content {
+				display: flex;
+				flex-direction: column;
+				justify-content: left;
+				gap: 100px;
+				padding: 100px 0 100px 150px;
+				.category-bar {
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					flex-wrap: no-wrap;
+					gap: 50px;
+					.post {
+						min-width: 350px;
+						height: 200px;
+						border: 1px solid grey;
+						line-height: 1px;
+						padding: 20px;
+						.author {
+							font-size: 20px;
+						}
+						box-shadow: 10px 10px gray;
+						&:hover {
+							cursor: pointer;
+						}
+					}
+					.first {
+						position: relative;
+						max-width: 350px;
+						height: 300px;
+						padding: 0;
+						line-height: 1px;
+						border-radius: 10px;
+						border: 1px solid black;
+						box-shadow: none;
+						overflow: hidden;
+						color: white;
+						transition: all 0.1s ease;
+						&:hover {
+							transform: translate(0, -5px);
+						}
+						.description {
+							position: absolute;
+							bottom: 0;
+							margin: 0 10px 10px 10px;
+							z-index: 3;
+						}
+						img {
+							z-index: 2;
+						}
+						.thumbnail {
+							position: absolute;
+							width: 100%;
+							height: 100%;
+							object-fit: cover;
+							z-index: 1;
+						}
+						.mute-button {
+							position: absolute;
+							width: 20px;
+							height: auto;
+							top: 10px;
+							right: 10px;
+							z-index: 0;
+						}
+					}
+					video {
+						position: absolute;
+						width: 100%;
+						height: 100%;
+						object-fit: cover;
+					}
+				}
+			}
+
+			@media (max-width: 720px) {
+				.top {
+					padding: 50px 1.5em 50px 1.5em;
+				}
+				.top p {
+					width: 300px;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<section class='top'>
+				<h1>{title}</h1>
+				<p>
+					{description}
+				</p>
+			</section>
+			<section class='content'>
+				
+			</section>
+		</main>
+		<Footer />
+	</body>
+</html>

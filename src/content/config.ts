@@ -12,4 +12,15 @@ const magazine = defineCollection({
 	}),
 });
 
-export const collections = { magazine };
+const learningTopics = defineCollection({
+  type: 'data',
+  schema: z.object({
+    title: z.string(),
+    trailerVideo: z.string(),
+    thumbnail: z.string(),
+    backgroundColor: z.string(),
+    description: z.string()
+  })
+});
+
+export const collections = { magazine, learningTopics };

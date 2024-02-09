@@ -30,3 +30,7 @@ $dialogs done designing, first dialog is functional
 
 nazib bhai - learn more about investing in the capital
 market
+
+## 25 oct, 2023
+/learn 
+/learn/category/investing

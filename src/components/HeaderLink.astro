@@ -2,7 +2,7 @@
 import type { HTMLAttributes } from "astro/types";
 import { Icon } from "astro-icon";
 
-type Props = HTMLAttributes<"a">;
+type Props = HTMLAttributes<"a"> & { more: String };;
 
 const { href, more, class: className, ...props } = Astro.props;
 
@@ -53,7 +53,7 @@ const isActive = href === pathname || href === pathname.replace(/\/$/, "");
     left: 0;
     height: auto;
     background: white;
-    z-index: 2;
+    z-index: 3;
     transition: all 0.7s ease;
   }
   .menu a {

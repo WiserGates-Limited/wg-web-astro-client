@@ -1,0 +1,21 @@
+---
+import { type CollectionEntry, getCollection } from 'astro:content';
+import TopicPage from "../../../layouts/TopicPage.astro";
+
+export async function  getStaticPaths(){
+  const topics = await getCollection('learn');
+	return topics.map((t) => ({
+		params: { topic: t.slug },
+		props: t,
+	}));
+}
+type Props = CollectionEntry<'magazine'>;
+const topic = Astro.props;
+console.log('topic ', topic);
+
+// const allTopics = await getCollection('learn');
+---
+
+<TopicPage {...topic.data}>
+
+</TopicPage>

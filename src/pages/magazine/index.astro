@@ -3,29 +3,14 @@ import BaseHead from "../../components/BaseHead.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
-// import { getCollection } from "astro:content";
+import { getCollection } from "astro:content";
 import FormattedDate from "../../components/FormattedDate.astro";
-import { useSanityClient } from 'astro-sanity';
 import PortableTextImage from "../../components/PortableTextImage.astro";
-import { urlForImage } from "../../sanity/urlForImage";
 
-let posts = await useSanityClient().fetch(`*[_type == "post"]`);
-console.log(posts[0].title, posts[0].mainImage.asset)
+const posts = (await getCollection("magazine")).sort(
+  (a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
+);
 
-// const posts = (await getCollection("magazine")).sort(
-//   (a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
-// );
-posts = posts.map(post => {
-  const url = urlForImage(post.mainImage.asset).url()
-  const webpUrl = urlForImage(post.mainImage.asset).format('webp').url()
-  return {
-    ...post,
-    mainImage: {
-      url: url,
-      webpUrl: webpUrl
-    }
-  }
-})
 ---
 
 <!doctype html>
@@ -110,17 +95,16 @@ posts = posts.map(post => {
           {
             posts.map((post) => (
               <li>
-                <a href={`/magazine/${post.slug.current}/`}>
-                  <picture>
-                    <source srcset={post.mainImage.webpUrl} type="image/webp"
-                    />
-                    <img 
-                      class="responsive__img"
-                      src={post.mainImage.url}/>
-                  </picture>
-                  <h4 class="title">{post.title}</h4>
+                <a href={`/magazine/${post.slug}/`}>
+                  <img
+										width={720}
+										height={360}
+										src={post.data.heroImage}
+										alt=''
+									/>
+                  <h4 class="title">{post.data.title}</h4>
                   <p class="date">
-                    <FormattedDate date={post._createdAt} />
+                    <FormattedDate date={post.data.pubDate} />
                   </p>
                 </a>
               </li>
